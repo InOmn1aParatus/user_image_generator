@@ -7,7 +7,7 @@ RSpec.describe User do
     it 'exists' do
       # I pass a real image generator object - this is potentially slow and costly
       # Lets mock this object whenever possible
-      image = ImageGenerator.new(20)
+      image = double(20)
       user = User.new("t@gmail.com", image)
       expect(user).to be_a User
     end
@@ -20,5 +20,12 @@ RSpec.describe User do
       expect(user.email).to eq "t@gmail.com"
       expect(user.image_generator).to eq mock_image_generator
     end
+
+    it 'changes ID based on input' do
+      mock_image_generator = instance_double("Image", max_image_size: 45)
+      user = User.new("t@gmail.com", mock_image_generator)
+      allow(user).to receive(gets.chomp)
+    end
+
   end
 end
